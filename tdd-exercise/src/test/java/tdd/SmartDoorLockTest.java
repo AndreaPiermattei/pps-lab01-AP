@@ -18,7 +18,6 @@ public class SmartDoorLockTest {
         doorLockToTest= new SimpleSmartDoorLock();
     }
 
-
     @Test
     public void checkIfInitiallyBlocked(){assertFalse(doorLockToTest.isBlocked());};
 
@@ -35,8 +34,6 @@ public class SmartDoorLockTest {
 
     @Test
     public void testUnlockWhenDoorAlreadyUnlocked(){assertThrows(IllegalComponentStateException.class,()->doorLockToTest.unlock(GENERIC_PIN));}
-
-
 
     @Test
     public void testLockWhenPinIsNotSet(){assertThrows(IllegalComponentStateException.class,()->doorLockToTest.lock());}
