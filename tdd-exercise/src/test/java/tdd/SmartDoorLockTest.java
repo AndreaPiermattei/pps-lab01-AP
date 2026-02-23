@@ -63,12 +63,14 @@ public class SmartDoorLockTest {
         setPinWithDefaultValueAndLockDoor();
         assertThrows(IllegalArgumentException.class, () -> doorLockToTest.setPin(-1));}
 
-
+    private void prepareLockedDoorThanUnlock(final int pin){
+        setPinWithDefaultValueAndLockDoor();
+        doorLockToTest.unlock(pin);
+    }
 
     @Test
     public void testUnlockWithCorrectPin(){
-        setPinWithDefaultValueAndLockDoor();
-        doorLockToTest.unlock(DEFAULT_PIN);
+        prepareLockedDoorThanUnlock(DEFAULT_PIN);
         assertEquals(0,doorLockToTest.getFailedAttempts());
         assertFalse(doorLockToTest.isLocked());
         assertFalse(doorLockToTest.isBlocked());
@@ -76,8 +78,7 @@ public class SmartDoorLockTest {
 
     @Test
     public void testUnlockWithIncorrectPin(){
-        setPinWithDefaultValueAndLockDoor();
-        doorLockToTest.unlock(GENERIC_PIN);
+        prepareLockedDoorThanUnlock(GENERIC_PIN);
         assertEquals(1,doorLockToTest.getFailedAttempts());
         assertTrue(doorLockToTest.isLocked());
         assertFalse(doorLockToTest.isBlocked());
