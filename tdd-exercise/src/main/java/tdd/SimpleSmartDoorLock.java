@@ -19,8 +19,9 @@ public class SimpleSmartDoorLock implements SmartDoorLock{
     }
 
     @Override
-    public void unlock(int pin) {
-        if(!(failedAttempts == MAX_ATTEMPTS) || this.locked){
+    public void unlock(int pin) throws IllegalComponentStateException{
+        if(!this.locked){throw new IllegalComponentStateException("door already unlocked");}
+        if(!(failedAttempts == MAX_ATTEMPTS)){
             if(this.failedAttempts < MAX_ATTEMPTS){
                 if(this.pin == pin){
                     this.locked = false;
@@ -34,6 +35,7 @@ public class SimpleSmartDoorLock implements SmartDoorLock{
 
     @Override
     public void lock() throws IllegalComponentStateException{
+        if(this.locked){throw new IllegalComponentStateException("already locked");}
         if(this.pin == -1){throw new IllegalComponentStateException("pin is not set");}
         this.locked = true;
     }

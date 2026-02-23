@@ -34,11 +34,22 @@ public class SmartDoorLockTest {
     public void testCorrectUseOfSetPin(){assertDoesNotThrow(()->doorLockToTest.setPin(DEFAULT_PIN));}
 
     @Test
+    public void testUnlockWhenDoorAlreadyUnlocked(){assertThrows(IllegalComponentStateException.class,()->doorLockToTest.unlock(GENERIC_PIN));}
+
+
+
+    @Test
     public void testLockWhenPinIsNotSet(){assertThrows(IllegalComponentStateException.class,()->doorLockToTest.lock());}
 
     private void setPinWithDefaultValueAndLockDoor(){
         doorLockToTest.setPin(DEFAULT_PIN);
         doorLockToTest.lock();
+    }
+
+    @Test
+    public void testLockWhenAlreadyLocked(){
+        setPinWithDefaultValueAndLockDoor();
+        assertThrows(IllegalComponentStateException.class,()->doorLockToTest.lock());
     }
 
     @Test
