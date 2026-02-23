@@ -20,25 +20,30 @@ public class SimpleBankAccount implements BankAccount {
         return this.balance;
     }
 
+    private boolean checkUser(final int id) {return this.holder.id() == id;}
+
     @Override
-    public void deposit(final int userID, final double amount) {
+    public void deposit(final int userID, final double amount) throws IllegalArgumentException{
+        if(amount<=0){
+            throw new IllegalArgumentException("amount is <= 0");
+        }
         if (checkUser(userID)) {
             this.balance += amount;
         }
     }
 
+    private double calculateFinalAmount(final double amount,final double fee){return amount+fee;}
+
+    private boolean isWithdrawAllowed(final double amount,final double fee){return this.balance >= calculateFinalAmount(amount,fee);}
+
     @Override
-    public void withdraw(final int userID, final double amount) {
-        if (checkUser(userID) && isWithdrawAllowed(amount)) {
-            this.balance -= amount;
+    public void withdraw(final int userID, final double amount) throws IllegalArgumentException{
+        final double feeToApply = 1;
+        if(amount<=0){
+            throw new IllegalArgumentException("amount is <= 0");
         }
-    }
-
-    private boolean isWithdrawAllowed(final double amount){
-        return this.balance >= amount;
-    }
-
-    private boolean checkUser(final int id) {
-        return this.holder.id() == id;
+        if (checkUser(userID) && isWithdrawAllowed(amount,feeToApply)) {
+            this.balance -= calculateFinalAmount(amount,feeToApply);
+        }
     }
 }
