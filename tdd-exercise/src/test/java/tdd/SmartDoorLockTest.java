@@ -94,7 +94,7 @@ public class SmartDoorLockTest {
     }
 
     @Test
-    public void testIfDoorBecomesBlocked(){
+    public void testIfDoorBlockedWhenNoAttemptsLeft(){
         setPinWithDefaultValueAndLockDoor();
         for(int counterAttempts=0; counterAttempts<MAX_ATTEMPT_EXPECTED;counterAttempts++){
             doorLockToTest.unlock(GENERIC_PIN);
